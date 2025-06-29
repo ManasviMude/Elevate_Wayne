@@ -5,14 +5,18 @@ import os
 from io import BytesIO
 from docx import Document
 import streamlit as st
+from dotenv import load_dotenv
+
+# === LOAD ENV VARIABLES (for local testing) ===
+load_dotenv()
 
 # === CONFIG ===
 OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY") or os.getenv("OPENROUTER_API_KEY")
 if not OPENROUTER_API_KEY:
-    st.error("❌ OpenRouter API key not found. Add it in Streamlit > Settings > Secrets.")
+    st.error("❌ OpenRouter API key not found. Add it in Streamlit → Settings → Secrets or your .env file.")
     st.stop()
 
-HTTP_REFERER = "https://your-app-name.streamlit.app"  # Change this to your deployed app URL if needed
+HTTP_REFERER = "https://your-app-name.streamlit.app"  # Optional: Set to your deployed app URL if needed
 
 # === CLEAN UNICODE TEXT ===
 def clean_text(text):
@@ -77,7 +81,7 @@ Return ONLY valid JSON like this:
         st.error(f"❌ LLM call failed: {e}")
         return {}
 
-# === FALLBACK DATA FOR DEMO ===
+# === FALLBACK MOCK DATA ===
 def mock_data():
     return {
         "XM8_CLAIM_NUM": "WJ-789456",
